@@ -1,4 +1,6 @@
-// Where the QA backend (FastAPI) is running.
-//   Local:      "http://127.0.0.1:8000"
-//   Deployed:   your Hugging Face Space address, e.g. "https://YOUR-USER-qa-backend.hf.space"
-window.QA_API_BASE = "http://127.0.0.1:8000";
+// QA backend connection
+// Local development:
+// http://127.0.0.1:8000
+
+// Deployed backend:
+window.QA_API_BASE = "https://ai-project-53me.onrender.com";

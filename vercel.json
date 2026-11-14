@@ -1,11 +1,5 @@
+
 {
-  "builds": [
-    { "src": "index.html", "use": "@vercel/static" },
-    { "src": "history.html", "use": "@vercel/static" },
-    { "src": "config.js", "use": "@vercel/static" },
-    { "src": "history-store.js", "use": "@vercel/static" },
-    { "src": "script.js", "use": "@vercel/static" },
-    { "src": "history.js", "use": "@vercel/static" },
-    { "src": "style.css", "use": "@vercel/static" }
-  ]
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": null
 }

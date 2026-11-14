@@ -1,0 +1,259 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#f4f8f3">
+    <title>QA | Universal Visual Search</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header class="navbar">
+        <a href="#" class="brand">
+            <span class="brand-icon">Q</span>
+            <span>QA<span class="green">.</span></span>
+        </a>
+
+        <nav>
+            <a href="#search">Search</a>
+            <a href="history.html">History</a>
+            <a href="#evaluation">Evaluation</a>
+            <a href="#how-it-works">How it works</a>
+            <span class="status" id="backendStatus">
+                <span class="dot"></span> Checking backend...
+            </span>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero">
+            <p class="eyebrow">AI-POWERED VISUAL RETRIEVAL</p>
+            <h1>Find the <span class="green">exact match.</span></h1>
+            <p class="hero-description">
+                Upload an image to discover visually similar instances
+                across products, fashion, landmarks and more.
+                Powered by CLIP / DINOv2 image embeddings and BLIP visual question answering.
+            </p>
+        </section>
+
+        <section class="search-layout" id="search">
+
+            <div class="panel upload-panel">
+                <div class="section-heading">
+                    <div>
+                        <p class="step">STEP 01</p>
+                        <h2>Upload your image</h2>
+                    </div>
+                    <span class="number">01</span>
+                </div>
+
+                <label for="domain">Search domain</label>
+                <select id="domain">
+                    <option value="all">All domains</option>
+                    <option value="fashion">Fashion</option>
+                    <option value="products">Products</option>
+                    <option value="landmarks">Landmarks &amp; buildings</option>
+                    <option value="artwork">Artwork &amp; illustrations</option>
+                </select>
+
+                <label class="category-toggle">
+                    <input type="checkbox" id="categoryFilter" checked>
+                    Only show the same type of item (AI-recognised)
+                </label>
+
+                <div class="upload-area" id="dropArea">
+                    <input
+                        type="file"
+                        id="imageInput"
+                        accept="image/*"
+                        hidden
+                    >
+
+                    <div id="uploadPrompt">
+                        <div class="upload-icon">↑</div>
+                        <h3>Drop your image here</h3>
+                        <p>or click to browse your files</p>
+                        <span class="file-note">PNG, JPG, WEBP and other supported images</span>
+                    </div>
+
+                    <div id="previewContainer" hidden>
+                        <img id="imagePreview" alt="Uploaded image preview">
+                        <p id="selectedFileName" class="selected-file-name"></p>
+                        <button
+                            type="button"
+                            id="removeImage"
+                            class="remove-button"
+                        >
+                            Remove image
+                        </button>
+                    </div>
+                </div>
+
+                <button type="button" id="searchButton" class="primary-button">
+                    <span>⌕</span> Search visual index
+                </button>
+
+                <div class="vqa-box">
+                    <div class="vqa-heading">
+                        <div>
+                            <p class="step">IMAGE UNDERSTANDING</p>
+                            <h3>Ask about this image</h3>
+                        </div>
+                        <span class="vqa-tag">BLIP VQA</span>
+                    </div>
+
+                    <label for="questionInput">Your question</label>
+                    <input
+                        type="text"
+                        id="questionInput"
+                        maxlength="500"
+                        placeholder="e.g. What color is the shoe?"
+                        autocomplete="off"
+                    >
+
+                    <button type="button" id="askButton" class="secondary-button">
+                        Ask AI about image
+                    </button>
+
+                    <div id="answerBox" class="answer-box" role="status" aria-live="polite" hidden>
+                        <p class="answer-label">AI ANSWER</p>
+                        <p id="answerText"></p>
+                        <p id="answerMeta" class="answer-meta"></p>
+                    </div>
+                </div>
+
+                <p class="privacy-note">
+                    Your selected image is sent to your local backend for visual search
+                    or question answering.
+                </p>
+            </div>
+
+            <div class="panel results-panel">
+                <div class="section-heading">
+                    <div>
+                        <p class="step">STEP 02</p>
+                        <h2>Retrieval results</h2>
+                    </div>
+                    <span class="number">02</span>
+                </div>
+
+                <div id="emptyState" class="empty-state">
+                    <div class="search-illustration">⌕</div>
+                    <h3>Your results will appear here</h3>
+                    <p>Upload an image to begin a visual search.</p>
+
+                    <div class="empty-tags">
+                        <span>Instance matching</span>
+                        <span>Similarity evidence</span>
+                        <span>UNKNOWN state</span>
+                    </div>
+                </div>
+
+                <div id="resultsContent" hidden>
+                    <div class="result-summary">
+                        <div>
+                            <p class="muted">SEARCH STATUS</p>
+                            <h3 id="resultTitle">Waiting for search</h3>
+                        </div>
+                        <span class="demo-badge" id="resultBadge">
+                            LIVE RESULTS
+                        </span>
+                    </div>
+
+                    <div id="decisionBanner" class="decision-banner" hidden>
+                        <p id="decisionLabel" class="decision-label"></p>
+                        <p id="categoryLine" class="category-line"></p>
+                        <p id="decisionReason" class="decision-reason"></p>
+                        <div id="evidenceRow" class="evidence-row"></div>
+                    </div>
+
+                    <h4 id="candidatesHeading" class="candidates-heading"></h4>
+
+                    <div
+                        id="resultMessage"
+                        class="result-message"
+                        role="status"
+                        aria-live="polite"
+                    ></div>
+
+                    <div id="resultsGrid" class="results-grid"></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="metrics">
+            <div class="metric-card">
+                <span class="metric-icon">◎</span>
+                <p>Retrieval method</p>
+                <h3>Embedding similarity</h3>
+            </div>
+
+            <div class="metric-card">
+                <span class="metric-icon">↗</span>
+                <p>Ranking depth</p>
+                <h3>Top-K candidates</h3>
+            </div>
+
+            <div class="metric-card">
+                <span class="metric-icon">◇</span>
+                <p>AI model</p>
+                <h3>CLIP / DINOv2 + BLIP</h3>
+            </div>
+        </section>
+
+        <section class="eval-section" id="evaluation">
+            <p class="eyebrow">MEASURED PERFORMANCE</p>
+            <h2>Retrieval evaluation.</h2>
+            <p class="eval-intro">
+                Computed by <code>python backend/evaluate.py</code> on query images
+                that are separate from the reference index.
+            </p>
+            <div id="evalContent" class="eval-content">
+                <p class="muted">Loading evaluation results...</p>
+            </div>
+        </section>
+
+        <section class="how-section" id="how-it-works">
+            <p class="eyebrow">THE PIPELINE</p>
+            <h2>From pixels to discovery.</h2>
+
+            <div class="pipeline">
+                <article>
+                    <span>01</span>
+                    <h3>Input image</h3>
+                    <p>Upload a query image from your device.</p>
+                </article>
+
+                <article>
+                    <span>02</span>
+                    <h3>AI embeddings</h3>
+                    <p>A pretrained model represents the image as a feature vector.</p>
+                </article>
+
+                <article>
+                    <span>03</span>
+                    <h3>Rank candidates</h3>
+                    <p>Compare the query against indexed reference images.</p>
+                </article>
+
+                <article>
+                    <span>04</span>
+                    <h3>Decide: match or UNKNOWN</h3>
+                    <p>Accept only if the score and its lead over the runner-up pass validation-tuned thresholds; otherwise report UNKNOWN.</p>
+                </article>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>QA · Universal Image-Instance Search Assistant</p>
+        <p>Student research prototype · AI &amp; ML</p>
+    </footer>
+
+    <script src="config.js"></script>
+    <script src="history-store.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

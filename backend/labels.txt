@@ -1,0 +1,31 @@
+# Categories the AI can name (zero-shot CLIP). One label per line, lines starting with # are ignored.
+# Use ONE word per concept (e.g. "shoe", not both "shoe" and "sneaker"), otherwise the same kind of
+# item gets split across labels. Add the kinds of objects that are in YOUR dataset.
+shoe
+handbag
+backpack
+shirt
+dress
+watch
+sunglasses
+hat
+pen
+bottle
+cup
+headphones
+phone
+laptop
+camera
+chair
+lamp
+book
+toy
+car
+bicycle
+building
+monument
+bridge
+landscape
+painting
+sculpture
+illustration

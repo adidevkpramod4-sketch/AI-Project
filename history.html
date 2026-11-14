@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#f4f8f3">
+    <title>QA | Search history</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header class="navbar">
+        <a href="index.html" class="brand">
+            <span class="brand-icon">Q</span>
+            <span>QA<span class="green">.</span></span>
+        </a>
+
+        <nav>
+            <a href="index.html#search">Search</a>
+            <a href="history.html" class="nav-active">History</a>
+            <a href="index.html#evaluation">Evaluation</a>
+            <span class="status" id="backendStatus">
+                <span class="dot"></span> Checking backend...
+            </span>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero hero-small">
+            <p class="eyebrow">SEARCH HISTORY</p>
+            <h1>Your past <span class="green">searches.</span></h1>
+            <p class="hero-description">
+                Every image you searched, the AI's decision and the results it returned.
+                History is stored in this browser only.
+            </p>
+        </section>
+
+        <section class="history-summary" id="historySummary"></section>
+
+        <section class="history-toolbar">
+            <div class="segmented" id="filterButtons">
+                <button type="button" class="seg active" data-filter="all">All</button>
+                <button type="button" class="seg" data-filter="MATCH">Match</button>
+                <button type="button" class="seg" data-filter="UNKNOWN">Unknown</button>
+            </div>
+            <input type="search" id="historySearch" class="history-search"
+                   placeholder="Filter by file, domain, category or object...">
+            <div class="toolbar-actions">
+                <button type="button" class="ghost-button" id="downloadCsv">Download CSV</button>
+                <button type="button" class="ghost-button danger" id="clearHistory">Clear all</button>
+            </div>
+        </section>
+
+        <section id="historyList" class="history-list"></section>
+        <div id="historyEmpty" class="history-empty" hidden>
+            <h3>No searches yet</h3>
+            <p>Run a search on the <a href="index.html#search">Search page</a> and it will appear here.</p>
+        </div>
+    </main>
+
+    <footer>
+        <p>QA · Universal Image-Instance Search Assistant</p>
+        <p>Student research prototype · AI &amp; ML</p>
+    </footer>
+
+    <script src="config.js"></script>
+    <script src="history-store.js"></script>
+    <script src="history.js"></script>
+</body>
+</html>
